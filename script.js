@@ -32,6 +32,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = document.getElementById('dynamicChart').getContext('2d');
     let currentNasaLayer = null;
 
+    
+    // Elementos do Modal
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const sharkModal = document.getElementById('shark-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    // Novos elementos do modal
+    const modalSharkImage = document.getElementById('modal-shark-image');
+    const modalId = document.getElementById('modal-id');
+    const modalSpecies = document.getElementById('modal-species');
+    const modalSize = document.getElementById('modal-size');
+    const modalLifeStage = document.getElementById('modal-life-stage');
+    const modalTagDate = document.getElementById('modal-tag-date');
+    const modalTagLocation = document.getElementById('modal-tag-location');
+
     // --- 6. VALORES PADRÃO ---
     layerDateInput.value = '2025-09-15';
     dataTypeSelect.value = 'nenhuma';
@@ -221,12 +237,45 @@ document.addEventListener('DOMContentLoaded', () => {
             points.forEach(point => {
                 L.marker([point.lat, point.lng], { icon: sharkIcon })
                     .addTo(map)
-                    .bindPopup(`<b>${point.name}</b><br>${point.description}`);
+                    // .bindPopup(`<b>${point.name}</b><br>${point.description}`)
+                    .on('click', () =>{
+                        return openSharkModal(point);
+                    });
             });
         } catch (error) {
             console.error("Erro nos pontos do mapa:", error);
         }
     }
+
+    function openSharkModal(sharkData) {
+        // Imagem genérica de um tubarão (de um serviço de fotos gratuitas)
+        modalSharkImage.src = 'https://images.pexels.com/photos/1673875/pexels-photo-1673875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+        
+        // Preenche o modal com os dados do tubarão clicado
+        modalTitle.textContent = `${sharkData.species} (${sharkData.id})`;
+        
+        modalId.textContent = sharkData.id;
+        modalSpecies.textContent = sharkData.species;
+        modalSize.textContent = sharkData.size;
+        modalLifeStage.textContent = sharkData.life_stage;
+        modalTagDate.textContent = sharkData.tag_date;
+        modalTagLocation.textContent = sharkData.tag_location;
+        
+        modalDescription.textContent = sharkData.description;
+
+        // Mostra o modal e o fundo
+        modalBackdrop.classList.remove('hidden');
+        sharkModal.classList.remove('hidden');
+    }
+    
+    function closeModal() {
+        modalBackdrop.classList.add('hidden');
+        sharkModal.classList.add('hidden');
+    }
+
+    // Eventos para fechar o modal
+    modalCloseBtn.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
     
     fetchDataAndUpdate();   
     loadMapPoints();

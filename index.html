@@ -14,14 +14,16 @@
         </div>
         <div class="right-panel">
             <div class="filter-section">
-                <label for="dataTypeSelect">Métrica:</label>
-                <select name="dataTypeSelect" id="dataTypeSelect">
-                    <option value="nenhuma">Nenhuma Camada</option>
-                    <option value="fitoplankton" selected>Fitoplâncton (Clorofila)</option>
-                    <option value="temperatura">Temperatura da Água</option>
-                </select>
                 <div class="filter-group">
-                    <label for="layerDate">Data:</label>
+                    <label for="dataTypeSelect">Métrica:</label>
+                    <select name="dataTypeSelect" id="dataTypeSelect">
+                        <option value="nenhuma" selected>Nenhuma Camada</option>
+                        <option value="fitoplankton">Fitoplâncton (Áreas)</option>
+                        <option value="temperatura">Temperatura (NASA)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="layerDate">Data (Camadas NASA):</label>
                     <input type="date" id="layerDate">
                 </div>
             </div>
@@ -29,8 +31,36 @@
                 <canvas id="dynamicChart"></canvas>
             </div>
             <div class="text-section">
+                <!-- O botão de análise foi removido daqui -->
                 <div id="info-text"></div>
             </div>
+        </div>
+    </div>
+
+    <!-- Estrutura do modal para informações do tubarão -->
+    <div id="modal-backdrop" class="modal-backdrop hidden"></div>
+    <div id="shark-modal" class="shark-modal hidden">
+        <div class="modal-header">
+            <h2 id="modal-title"></h2>
+            <button id="modal-close-btn" class="modal-close-btn">&times;</button>
+        </div>
+        <div class="modal-content">
+            <div class="modal-body-grid">
+                <div class="modal-image-container">
+                    <img id="modal-shark-image" src="" alt="Imagem de um tubarão">
+                </div>
+                <div class="modal-details">
+                    <ul>
+                        <li><strong>ID da Tag:</strong> <span id="modal-id"></span></li>
+                        <li><strong>Espécie:</strong> <span id="modal-species"></span></li>
+                        <li><strong>Tamanho Estimado:</strong> <span id="modal-size"></span></li>
+                        <li><strong>Fase de Vida:</strong> <span id="modal-life-stage"></span></li>
+                        <li><strong>Data da Tag:</strong> <span id="modal-tag-date"></span></li>
+                        <li><strong>Local da Tag:</strong> <span id="modal-tag-location"></span></li>
+                    </ul>
+                </div>
+            </div>
+            <p id="modal-description" class="modal-notes"></p>
         </div>
     </div>
 
@@ -39,3 +69,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
