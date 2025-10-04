@@ -43,7 +43,7 @@ body {
 .filter-section {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px; /* Espaçamento entre os grupos */
     flex-wrap: wrap;
 }
 .filter-section label {
@@ -70,6 +70,12 @@ body {
 #info-text p {
     line-height: 1.5;
     font-size: 0.95rem;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espaçamento menor entre o rótulo e seu campo */
 }
 
 .area-label {
