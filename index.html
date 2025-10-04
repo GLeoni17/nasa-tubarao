@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Dinâmico</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="map-section">
+            <div id="map"></div>
+        </div>
+        <div class="right-panel">
+            <div class="filter-section">
+                <label for="mapType" style="margin-right: 10px; font-weight: 500;">Métrica:</label>
+                <select name="mapType" id="mapType">
+                    <option value="temperatura">Temperatura</option>
+                    <option value="fitoplankton">Fitoplankton</option>
+                </select>
+            </div>
+            <div class="chart-section">
+                <canvas id="dynamicChart"></canvas>
+            </div>
+            <div class="text-section">
+                <div id="info-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
