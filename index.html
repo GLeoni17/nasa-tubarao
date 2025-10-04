@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Dinâmico</title>
+    <title>Dashboard Geo-Espacial</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,16 +14,23 @@
         </div>
         <div class="right-panel">
             <div class="filter-section">
-                <label for="mapType" style="margin-right: 10px; font-weight: 500;">Métrica:</label>
-                <select name="mapType" id="mapType">
-                    <option value="temperatura">Temperatura</option>
-                    <option value="fitoplankton">Fitoplankton</option>
+                <label for="dataTypeSelect">Métrica:</label>
+                <select name="dataTypeSelect" id="dataTypeSelect">
+                    <option value="fitoplankton" selected>Fitoplâncton (Clorofila)</option>
+                    <option value="temperatura">Temperatura da Água</option>
+                    <option value="correntes">Correntes Oceânicas</option>
+                    <option value="nenhuma">Nenhuma Camada</option>
                 </select>
+                <label for="layerDate">Data:</label>
+                <input type="date" id="layerDate">
             </div>
             <div class="chart-section">
                 <canvas id="dynamicChart"></canvas>
             </div>
             <div class="text-section">
+                <div class="analysis-controls">
+                    <button id="analyzeViewBtn">Analisar Área Visível</button>
+                </div>
                 <div id="info-text"></div>
             </div>
         </div>
