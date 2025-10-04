@@ -19,42 +19,48 @@ app.add_middleware(
 async def get_data(dataType: Optional[str] = "fitoplankton"):
     if dataType == "temperatura":
         chart_labels = ["Manhã", "Meio-dia", "Tarde", "Noite"]
-        chart_values = [round(random.uniform(22.0, 29.5), 1) for _ in range(len(chart_labels))]
+        # --- DADOS DE TEMPERATURA AGORA SÃO FIXOS ---
+        chart_values = [27.5, 29.1, 28.4, 26.8]
         chart_dataset_label = "Temperatura (°C)"
-        text_content = f"Análise de temperatura na orla: A média registrada foi de {round(sum(chart_values) / len(chart_values), 1)}°C."
+        text_content = f"Análise de temperatura na área: A média registrada foi de {round(sum(chart_values) / len(chart_values), 1)}°C."
+        return {
+            "chart_data": { "labels": chart_labels, "values": chart_values, "label": chart_dataset_label },
+            "text_data": { "title": "Monitoramento Costeiro", "content": text_content }
+        }
     else: # Padrão é fitoplâncton
         chart_labels = ["Ponto A", "Ponto B", "Ponto C", "Ponto D", "Ponto E"]
-        chart_values = [random.randint(10, 80) for _ in range(len(chart_labels))]
+        # --- DADOS DE FITOPLÂNCTON AGORA SÃO FIXOS ---
+        chart_values = [45, 62, 51, 75, 38]
         chart_dataset_label = "Concentração de Fitoplâncton (µg/L)"
         text_content = f"Análise de biomassa marinha: O ponto de maior concentração foi o Ponto {chr(65 + chart_values.index(max(chart_values)))}."
-    
-    return {
-        "chart_data": { "labels": chart_labels, "values": chart_values, "label": chart_dataset_label },
-        "text_data": { "title": "Monitoramento Costeiro", "content": text_content }
-    }
+        
+        # --- COORDENADAS DAS ÁREAS AGORA SÃO FIXAS ---
+        area_points = [
+            {"label": "Área A", "lat": -3.831, "lng": -32.412},
+            {"label": "Área B", "lat": -3.840, "lng": -32.429},
+            {"label": "Área C", "lat": -3.860, "lng": -32.454},
+            {"label": "Área D", "lat": -3.875, "lng": -32.441},
+            {"label": "Área E", "lat": -3.880, "lng": -32.415}
+        ]
+
+        return {
+            "chart_data": { "labels": chart_labels, "values": chart_values, "label": chart_dataset_label },
+            "text_data": { "title": "Monitoramento de Fitoplâncton", "content": text_content },
+            "area_points": area_points
+        }
 
 # Endpoint que fornece os MARCADORES para o MAPA
 @app.get("/api/map-points")
 async def get_map_points():
-    # Usando os pontos de interesse de Santos, SP
-    points_of_interest = [
-        {
-            "name": "Aquário Municipal de Santos",
-            "lat": -23.9803,
-            "lng": -46.3039,
-            "description": "Um dos pontos turísticos mais famosos da cidade."
-        },
-        {
-            "name": "Orquidário Municipal",
-            "lat": -23.9681,
-            "lng": -46.3468,
-            "description": "Parque zoobotânico com belos jardins e diversas espécies."
-        },
-        {
-            "name": "Museu do Café",
-            "lat": -23.9320,
-            "lng": -46.3081,
-            "description": "Localizado no centro histórico, conta a história do café no Brasil."
-        }
+    shark_sightings = [
+        {"name": "Avistamento de Tubarão-Tigre", "lat": -3.875, "lng": -32.441, "description": "Adulto, avistado na Baía do Sueste."},
+        {"name": "Avistamento de Tubarão-Lixa", "lat": -3.880, "lng": -32.445, "description": "Vários indivíduos em repouso, observados em mergulho."},
+        {"name": "Avistamento de Tubarão-Martelo", "lat": -3.859, "lng": -32.460, "description": "Grupo pequeno avistado em mar aberto a oeste da ilha."},
+        {"name": "Avistamento de Tubarão-de-Recife", "lat": -3.831, "lng": -32.412, "description": "Patrulhando a área dos recifes na Baía dos Golfinhos."},
+        {"name": "Avistamento de Tubarão-Baleia", "lat": -3.790, "lng": -32.380, "description": "Raro avistamento sazonal a nordeste da ilha principal."},
+        {"name": "Avistamento de Tubarão-Limão", "lat": -3.840, "lng": -32.429, "description": "Dois adultos avistados próximos à Cacimba do Padre."},
+        {"name": "Avistamento de Tubarão-de-pontas-brancas-de-recife", "lat": -3.835, "lng": -32.405, "description": "Indivíduo solitário observado no Morro de Fora."},
+        {"name": "Avistamento de Tubarão-Tigre", "lat": -3.838, "lng": -32.448, "description": "Fêmea, detectada por tag de satélite perto do Morro Dois Irmãos."},
+        {"name": "Avistamento de Tubarão-Martelo", "lat": -3.901, "lng": -32.455, "description": "Sinal de sonar de um grande indivíduo em águas profundas ao sul."}
     ]
-    return points_of_interest
+    return shark_sightings

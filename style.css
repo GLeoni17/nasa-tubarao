@@ -64,28 +64,20 @@ body {
     display: flex;
     flex-direction: column;
 }
-.analysis-controls {
-    margin-bottom: 15px;
-}
-.analysis-controls button {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-.analysis-controls button:hover {
-    background-color: #0056b3;
-}
 #info-text h2 {
     margin-bottom: 10px;
 }
 #info-text p {
     line-height: 1.5;
     font-size: 0.95rem;
+}
+
+.area-label {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 1px 1px 2px black; /* Sombra para melhorar a legibilidade */
 }

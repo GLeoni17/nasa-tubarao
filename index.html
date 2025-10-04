@@ -16,10 +16,9 @@
             <div class="filter-section">
                 <label for="dataTypeSelect">Métrica:</label>
                 <select name="dataTypeSelect" id="dataTypeSelect">
+                    <option value="nenhuma">Nenhuma Camada</option>
                     <option value="fitoplankton" selected>Fitoplâncton (Clorofila)</option>
                     <option value="temperatura">Temperatura da Água</option>
-                    <option value="correntes">Correntes Oceânicas</option>
-                    <option value="nenhuma">Nenhuma Camada</option>
                 </select>
                 <label for="layerDate">Data:</label>
                 <input type="date" id="layerDate">
@@ -28,9 +27,6 @@
                 <canvas id="dynamicChart"></canvas>
             </div>
             <div class="text-section">
-                <div class="analysis-controls">
-                    <button id="analyzeViewBtn">Analisar Área Visível</button>
-                </div>
                 <div id="info-text"></div>
             </div>
         </div>
