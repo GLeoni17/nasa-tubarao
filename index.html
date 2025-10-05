@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
     <title>Dashboard Geo-Espacial</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
@@ -18,8 +18,8 @@
                     <label for="dataTypeSelect">Métrica:</label>
                     <select name="dataTypeSelect" id="dataTypeSelect">
                         <option value="nenhuma" selected>Nenhuma Camada</option>
-                        <option value="fitoplankton">Fitoplâncton (Áreas)</option>
-                        <option value="temperatura">Temperatura (NASA)</option>
+                        <option value="fitoplankton">Fitoplâncton</option>
+                        <option value="temperatura">Temperatura</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -31,13 +31,11 @@
                 <canvas id="dynamicChart"></canvas>
             </div>
             <div class="text-section">
-                <!-- O botão de análise foi removido daqui -->
                 <div id="info-text"></div>
             </div>
         </div>
     </div>
 
-    <!-- Estrutura do modal para informações do tubarão -->
     <div id="modal-backdrop" class="modal-backdrop hidden"></div>
     <div id="shark-modal" class="shark-modal hidden">
         <div class="modal-header">
@@ -54,6 +52,7 @@
                         <li><strong>ID da Tag:</strong> <span id="modal-id"></span></li>
                         <li><strong>Espécie:</strong> <span id="modal-species"></span></li>
                         <li><strong>Tamanho Estimado:</strong> <span id="modal-size"></span></li>
+                        <li><strong>Alimentação:</strong> <span id="modal-food"></span></li>
                         <li><strong>Fase de Vida:</strong> <span id="modal-life-stage"></span></li>
                         <li><strong>Data da Tag:</strong> <span id="modal-tag-date"></span></li>
                         <li><strong>Local da Tag:</strong> <span id="modal-tag-location"></span></li>
@@ -65,8 +64,9 @@
     </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet.heat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>
-

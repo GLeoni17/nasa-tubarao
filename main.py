@@ -93,6 +93,7 @@ async def get_map_points():
             "life_stage": "Adulto",
             "tag_date": "2024-02-15",
             "tag_location": "Baía do Sueste, Fernando de Noronha",
+            "food": "Análise recente indicou restos de peixes ósseos e uma tartaruga marinha.",
             "lat": -3.875,
             "lng": -32.441,
             "description": "Avistamento recorrente na Baía do Sueste, padrão de caça noturno observado."
@@ -105,6 +106,7 @@ async def get_map_points():
             "life_stage": "Adulto",
             "tag_date": "2023-11-20",
             "tag_location": "Laje Dois Irmãos, Fernando de Noronha",
+            "food": "Observado se alimentando de pequenos crustáceos e moluscos no fundo do mar.",
             "lat": -3.880,
             "lng": -32.445,
             "description": "Observado em grupo durante mergulho. Comportamento dócil."
@@ -117,6 +119,7 @@ async def get_map_points():
             "life_stage": "Subadulto",
             "tag_date": "2024-05-10",
             "tag_location": "Mar de Fora, Fernando de Noronha",
+            "food": "Dieta composta principalmente por lulas e pequenos peixes de cardume.",
             "lat": -3.859,
             "lng": -32.460,
             "description": "Grupo pequeno avistado em mar aberto a oeste da ilha."
@@ -129,6 +132,7 @@ async def get_map_points():
             "life_stage": "Adulto",
             "tag_date": "2024-01-05",
             "tag_location": "Baía dos Golfinhos, Fernando de Noronha",
+            "food": "Caça peixes de recife, como donzelas e peixes-papagaio.",
             "lat": -3.831,
             "lng": -32.412,
             "description": "Patrulhando a área dos recifes, comportamento territorial."
@@ -141,6 +145,7 @@ async def get_map_points():
             "life_stage": "Jovem",
             "tag_date": "2024-08-22",
             "tag_location": "Costa Nordeste de Fernando de Noronha",
+            "food": "Alimentação por filtração, consumindo plâncton e pequenos cardumes.",
             "lat": -3.790,
             "lng": -32.380,
             "description": "Avistamento sazonal raro. Rota migratória monitorada."
@@ -153,6 +158,7 @@ async def get_map_points():
             "life_stage": "Adulto",
             "tag_date": "2023-09-14",
             "tag_location": "Cacimba do Padre, Fernando de Noronha",
+            "food": "Predação de peixes ósseos e raias-manteiga foi registrada na área.",
             "lat": -3.840,
             "lng": -32.429,
             "description": "Dois adultos avistados próximos à Cacimba do Padre."
@@ -165,6 +171,7 @@ async def get_map_points():
             "life_stage": "Adulto",
             "tag_date": "2024-04-18",
             "tag_location": "Morro de Fora, Fernando de Noronha",
+            "food": "Caça noturna de polvos e peixes escondidos nas fendas dos recifes.",
             "lat": -3.835,
             "lng": -32.405,
             "description": "Indivíduo solitário observado durante a noite."
@@ -177,6 +184,7 @@ async def get_map_points():
             "life_stage": "Fêmea Adulta",
             "tag_date": "2022-12-01",
             "tag_location": "Proximidades do Morro Dois Irmãos",
+            "food": "Sinais de predação de uma foca-monge foram associados a este indivíduo.",
             "lat": -3.838,
             "lng": -32.448,
             "description": "Tag de satélite de longa duração. Vasta área de deslocamento."
@@ -189,9 +197,10 @@ async def get_map_points():
             "life_stage": "Adulto",
             "tag_date": "2024-07-30",
             "tag_location": "Águas profundas ao Sul da ilha",
+            "food": "Detectado caçando cardumes de sardinhas em águas mais profundas.",
             "lat": -3.901,
             "lng": -32.455,
-            "description": "Sinal de sonar de um grande indivíduo. Não houve contato visual."
+            "description": "Sinal de sonar de um grande indivíduedivíduo. Não houve contato visual."
         }
     ]
     return shark_sightings

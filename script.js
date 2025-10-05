@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalId = document.getElementById('modal-id');
     const modalSpecies = document.getElementById('modal-species');
     const modalSize = document.getElementById('modal-size');
+    const modalFood = document.getElementById('modal-food');
     const modalLifeStage = document.getElementById('modal-life-stage');
     const modalTagDate = document.getElementById('modal-tag-date');
     const modalTagLocation = document.getElementById('modal-tag-location');
@@ -249,7 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openSharkModal(sharkData) {
         // Imagem genérica de um tubarão (de um serviço de fotos gratuitas)
-        modalSharkImage.src = 'https://images.pexels.com/photos/1673875/pexels-photo-1673875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+        // modalSharkImage.src = 'https://images.pexels.com/photos/1673875/pexels-photo-1673875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+        modalSharkImage.src = 'https://images.pexels.com/photos/2747248/pexels-photo-2747248.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
         
         // Preenche o modal com os dados do tubarão clicado
         modalTitle.textContent = `${sharkData.species} (${sharkData.id})`;
@@ -257,6 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalId.textContent = sharkData.id;
         modalSpecies.textContent = sharkData.species;
         modalSize.textContent = sharkData.size;
+        modalFood.textContent =sharkData.food;
         modalLifeStage.textContent = sharkData.life_stage;
         modalTagDate.textContent = sharkData.tag_date;
         modalTagLocation.textContent = sharkData.tag_location;
