@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale-1.0">
-    <title>Dashboard Geo-Espacial</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,15 +15,15 @@
         <div class="right-panel">
             <div class="filter-section">
                 <div class="filter-group">
-                    <label for="dataTypeSelect">Métrica:</label>
+                    <label for="dataTypeSelect">Metrics:</label>
                     <select name="dataTypeSelect" id="dataTypeSelect">
-                        <option value="nenhuma" selected>Nenhuma Camada</option>
-                        <option value="fitoplankton">Fitoplâncton</option>
-                        <option value="temperatura">Temperatura</option>
+                        <option value="nenhuma" selected>No filters</option>
+                        <option value="fitoplankton">Phytoplankton</option>
+                        <option value="temperatura">Temperature</option>
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label for="layerDate">Data (Camadas NASA):</label>
+                    <label for="layerDate">Select a date:</label>
                     <input type="date" id="layerDate">
                 </div>
             </div>
@@ -49,14 +49,15 @@
                 </div>
                 <div class="modal-details">
                     <ul>
-                        <li><strong>ID da Tag:</strong> <span id="modal-id"></span></li>
-                        <li><strong>Espécie:</strong> <span id="modal-species"></span></li>
-                        <li><strong>Tamanho Estimado:</strong> <span id="modal-size"></span></li>
-                        <li><strong>Alimentação:</strong> <span id="modal-food"></span></li>
-                        <li><strong>Fase de Vida:</strong> <span id="modal-life-stage"></span></li>
-                        <li><strong>Data da Tag:</strong> <span id="modal-tag-date"></span></li>
-                        <li><strong>Local da Tag:</strong> <span id="modal-tag-location"></span></li>
+                        <li><strong>ID:</strong> <span id="modal-id"></span></li>
+                        <li><strong>Species:</strong> <span id="modal-species"></span></li>
+                        <li><strong>Estimated Size:</strong> <span id="modal-size"></span></li>
+                        <li><strong>Diet:</strong> <span id="modal-food"></span></li>
+                        <li><strong>Life Stage:</strong> <span id="modal-life-stage"></span></li>
+                        <li><strong>Tag Date:</strong> <span id="modal-tag-date"></span></li>
+                        <li><strong>Tag Location:</strong> <span id="modal-tag-location"></span></li>
                     </ul>
+                    
                 </div>
             </div>
             <p id="modal-description" class="modal-notes"></p>

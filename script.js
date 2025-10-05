@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. CHAVE DE API (OPCIONAL, PARA MAPA ESCURO) ---
-    const STADIA_API_KEY = "SUA_CHAVE_API_VAI_AQUI";
+    // --- 1. API KEY (OPTIONAL, FOR DARK MAP) ---
+    const STADIA_API_KEY = "YOUR_API_KEY_GOES_HERE";
 
-    // --- 2. CAMADAS DE MAPA BASE (FUNDOS) ---
+    // --- 2. BASE MAP LAYERS (BACKGROUNDS) ---
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' });
 
-    // --- 3. CONFIGURAÇÃO INICIAL DO MAPA ---
+    // --- 3. INITIAL MAP SETUP ---
     const map = L.map('map', { center: [-3.85, -32.42], zoom: 13, layers: [osm] });   
 
     const sharkIcon = L.icon({
@@ -15,16 +15,17 @@ document.addEventListener('DOMContentLoaded', () => {
         popupAnchor: [0, -40]
     });
 
-    // --- 4. CATÁLOGO DE CAMADAS DA NASA ---
+    // --- 4. NASA LAYER CATALOG ---
+    // Note: The identifiers are case-sensitive and must match NASA's service.
     const NASA_LAYERS = {
-        'fitoplankton': { identifier: 'MODIS_Aqua_Chlorophyll_A', unit: 'mg/m³' },
-        'temperatura': { identifier: 'GHRSST_L4_MUR_Sea_Surface_Temperature', unit: '°C' },
-        'correntes': { identifier: 'HYCOM_Sea_Water_Velocity_Magnitude_Daily', unit: 'm/s' }
+        'phytoplankton': { identifier: 'MODIS_Aqua_Chlorophyll_A', unit: 'mg/m³' },
+        'temperature': { identifier: 'GHRSST_L4_MUR_Sea_Surface_Temperature', unit: '°C' },
+        'currents': { identifier: 'HYCOM_Sea_Water_Velocity_Magnitude_Daily', unit: 'm/s' }
     };
 
     let phytoplanktonAreasLayer = L.layerGroup().addTo(map);
 
-    // --- 5. REFERÊNCIAS AOS ELEMENTOS DO HTML ---
+    // --- 5. HTML ELEMENT REFERENCES ---
     const dataTypeSelect = document.getElementById('dataTypeSelect');
     const layerDateInput = document.getElementById('layerDate');
     const analyzeViewBtn = document.getElementById('analyzeViewBtn');
@@ -33,13 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentNasaLayer = null;
 
     
-    // Elementos do Modal
+    // Modal Elements
     const modalBackdrop = document.getElementById('modal-backdrop');
     const sharkModal = document.getElementById('shark-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
     const modalCloseBtn = document.getElementById('modal-close-btn');
-    // Novos elementos do modal
+    // New modal elements
     const modalSharkImage = document.getElementById('modal-shark-image');
     const modalId = document.getElementById('modal-id');
     const modalSpecies = document.getElementById('modal-species');
@@ -49,11 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalTagDate = document.getElementById('modal-tag-date');
     const modalTagLocation = document.getElementById('modal-tag-location');
 
-    // --- 6. VALORES PADRÃO ---
+    // --- 6. DEFAULT VALUES ---
     layerDateInput.value = '2025-09-15';
-    dataTypeSelect.value = 'nenhuma';
+    dataTypeSelect.value = 'none'; // Changed from 'nenhuma'
 
-    // --- 7. LÓGICA DO GRÁFICO ---
+    // --- 7. CHART LOGIC ---
     const dynamicChart = new Chart(ctx, {
         type: 'line',
         data: { labels: [], datasets: [{ label: '', data: [], backgroundColor: 'rgba(54, 162, 235, 0.2)', borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 2, tension: 0.4, fill: true }] },
@@ -62,17 +63,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchDataAndUpdate() {
         const selectedType = dataTypeSelect.value;
-        phytoplanktonAreasLayer.clearLayers(); // Limpa sempre os círculos de área
+        phytoplanktonAreasLayer.clearLayers(); // Always clear the area circles
 
-        if (selectedType === 'nenhuma' || !NASA_LAYERS[selectedType]) {
+        if (selectedType === 'none' || !NASA_LAYERS[selectedType]) {
             dynamicChart.data.labels = [];
             dynamicChart.data.datasets[0].data = [];
-            dynamicChart.data.datasets[0].label = 'Nenhuma métrica';
+            dynamicChart.data.datasets[0].label = 'No metric selected';
             dynamicChart.update();
-            infoTextElement.innerHTML = `<h2>Selecione uma Métrica</h2>`;
+            infoTextElement.innerHTML = `<h2>Select a metric</h2><p>Choose a data type from the dropdown to see trends and map overlays.</p>`;
             return;
         }
         try {
+            // The backend endpoint might need to be updated to expect English terms (e.g., 'phytoplankton')
             const response = await fetch(`http://127.0.0.1:8000/api/data?dataType=${selectedType}`);
             const data = await response.json();
             dynamicChart.data.datasets[0].label = data.chart_data.label;
@@ -87,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         color: '#28a745',
                         fillColor: '#28a745',
                         fillOpacity: 0.3,
-                        radius: 500 // Raio em metros
+                        radius: 500 // Radius in meters
                     }).addTo(phytoplanktonAreasLayer);
 
                     circle.bindTooltip(point.label, {
@@ -98,11 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         } catch (error) {
-            console.error("Erro no gráfico:", error);
+            console.error("Error fetching chart data:", error);
         }
     }
 
-    // --- 8. LÓGICA DAS CAMADAS DA NASA ---
+    // --- 8. NASA LAYER LOGIC ---
     function updateNasaLayer() {
         if (currentNasaLayer) {
             map.removeLayer(currentNasaLayer);
@@ -110,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const selectedType = dataTypeSelect.value;
         const layerInfo = NASA_LAYERS[selectedType];
-        if (!layerInfo) return;
+        if (!layerInfo) return; // Exit if 'none' or invalid type is selected
 
         const tileUrl = `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${layerInfo.identifier}/default/${layerDateInput.value}/GoogleMapsCompatible_Level9/{z}/{x}/{y}.png`;
         currentNasaLayer = L.tileLayer(tileUrl, {
@@ -120,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).addTo(map);
     }
 
-    // --- 9. LÓGICA DE ANÁLISE DE DADOS (GetFeatureInfo) ---
+    // --- 9. DATA ANALYSIS LOGIC (GetFeatureInfo) ---
     async function fetchDataForPoint(latlng) {
         const layerInfo = NASA_LAYERS[dataTypeSelect.value];
         if (!layerInfo) return null;
@@ -152,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const resp = await fetch(url);
-            if (!resp.ok) return null; // Sai se a requisição falhou
+            if (!resp.ok) return null; // Exit if the request failed
 
             const contentType = (resp.headers.get('content-type') || '').toLowerCase();
             let value = null;
@@ -160,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (contentType.includes('application/json')) {
                 const data = await resp.json();
                 value = data?.features?.[0]?.properties?.value ?? null;
-            } else { // Fallback para XML/texto se a resposta não for JSON
+            } else { // Fallback for XML/text if the response is not JSON
                 const txt = await resp.text();
                 const numMatch = txt.match(/-?\d+(\.\d+)?/);
                 if (numMatch) value = parseFloat(numMatch[0]);
@@ -168,24 +170,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return (value !== null && !isNaN(value)) ? value : null;
         } catch (err) {
-            console.error('Erro na requisição GetFeatureInfo:', err);
+            console.error('Error in GetFeatureInfo:', err);
             return null;
         }
     }
 
     map.on('click', async (e) => {
-        const popup = L.popup().setLatLng(e.latlng).setContent("Buscando dados...").openOn(map);
+        const popup = L.popup().setLatLng(e.latlng).setContent("Fetching data...").openOn(map);
         const value = await fetchDataForPoint(e.latlng);
         const layerInfo = NASA_LAYERS[dataTypeSelect.value];
-        if (value !== null) {
+        if (value !== null && layerInfo) {
             popup.setContent(`<b>${dataTypeSelect.options[dataTypeSelect.selectedIndex].text}:</b><br>${value.toFixed(2)} ${layerInfo.unit || ''}`);
         } else {
-            popup.setContent("Nenhum dado disponível para este ponto.");
+            popup.setContent("No data available at this location.");
         }
     });
 
     async function analyzeCurrentView() {
-        infoTextElement.innerHTML = `<h2>Analisando...</h2><p>Buscando dados da NASA em grade...</p>`;
+        infoTextElement.innerHTML = `<h2>Analyzing...</h2><p>Fetching data for the visible area...</p>`;
         const bounds = map.getBounds();
         const gridSize = 7;
         const promises = [];
@@ -201,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const validData = results.filter(v => v !== null);
         
         if (validData.length === 0) {
-            infoTextElement.innerHTML = `<h2>Análise Concluída</h2><p>Não foram encontrados dados válidos na área visível.</p>`;
+            infoTextElement.innerHTML = `<h2>Analysis Complete</h2><p>No valid data found in the visible area.</p>`;
             return;
         }
         
@@ -212,14 +214,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const layerInfo = NASA_LAYERS[dataTypeSelect.value];
         
         infoTextElement.innerHTML = `
-            <h2>Análise da Área Visível</h2>
-            <p><strong>Métrica:</strong> ${dataTypeSelect.options[dataTypeSelect.selectedIndex].text}</p>
-            <p><strong>Pontos Válidos:</strong> ${validData.length}/${gridSize * gridSize}</p>
-            <p><strong>Mín:</strong> ${min.toFixed(2)} | <strong>Média:</strong> ${avg.toFixed(2)} | <strong>Máx:</strong> ${max.toFixed(2)} ${layerInfo.unit || ''}</p>
+            <h2>Visible Area Analysis</h2>
+            <p><strong>Metric:</strong> ${dataTypeSelect.options[dataTypeSelect.selectedIndex].text}</p>
+            <p><strong>Valid Points:</strong> ${validData.length}/${gridSize * gridSize}</p>
+            <p><strong>Min:</strong> ${min.toFixed(2)} | <strong>Average:</strong> ${avg.toFixed(2)} | <strong>Max:</strong> ${max.toFixed(2)} ${layerInfo.unit || ''}</p>
         `;
     }
 
-    // --- 10. EVENTOS E CARREGAMENTO INICIAL ---
+    // --- 10. EVENTS AND INITIAL LOAD ---
     function handleSelectionChange() {
         fetchDataAndUpdate();
         updateNasaLayer();
@@ -239,34 +241,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 L.marker([point.lat, point.lng], { icon: sharkIcon })
                     .addTo(map)
                     // .bindPopup(`<b>${point.name}</b><br>${point.description}`)
-                    .on('click', () =>{
+                    .on('click', () => {
                         return openSharkModal(point);
                     });
             });
         } catch (error) {
-            console.error("Erro nos pontos do mapa:", error);
+            console.error("Error loading map points:", error);
         }
     }
 
     function openSharkModal(sharkData) {
-        // Imagem genérica de um tubarão (de um serviço de fotos gratuitas)
-        // modalSharkImage.src = 'https://images.pexels.com/photos/1673875/pexels-photo-1673875.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
+        // Generic shark image (from a free stock photo service)
         modalSharkImage.src = 'https://images.pexels.com/photos/2747248/pexels-photo-2747248.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1';
         
-        // Preenche o modal com os dados do tubarão clicado
+        // Populates the modal with the clicked shark's data
         modalTitle.textContent = `${sharkData.species} (${sharkData.id})`;
         
         modalId.textContent = sharkData.id;
         modalSpecies.textContent = sharkData.species;
         modalSize.textContent = sharkData.size;
-        modalFood.textContent =sharkData.food;
+        modalFood.textContent = sharkData.food;
         modalLifeStage.textContent = sharkData.life_stage;
         modalTagDate.textContent = sharkData.tag_date;
         modalTagLocation.textContent = sharkData.tag_location;
         
         modalDescription.textContent = sharkData.description;
 
-        // Mostra o modal e o fundo
+        // Shows the modal and the backdrop
         modalBackdrop.classList.remove('hidden');
         sharkModal.classList.remove('hidden');
     }
@@ -276,10 +277,11 @@ document.addEventListener('DOMContentLoaded', () => {
         sharkModal.classList.add('hidden');
     }
 
-    // Eventos para fechar o modal
+    // Events to close the modal
     modalCloseBtn.addEventListener('click', closeModal);
     modalBackdrop.addEventListener('click', closeModal);
     
+    // Initial data load on page startup
     fetchDataAndUpdate();   
     loadMapPoints();
     handleSelectionChange();
