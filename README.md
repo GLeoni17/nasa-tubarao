@@ -11,3 +11,11 @@ The platform allows users to explore shark movement patterns, overlay environmen
 - AI-generated explanations interpreting shark behavior and environmental patterns
 - Conceptual design of **Smart Tags** for monitoring shark movements and feeding behavior
 - Framework for **predictive modeling** of foraging habitats (planned, requires in-situ data)
+
+## How to run
+You will need:
+* python
+* fastapi
+* uvicorn
+
+Command: uvicorn main:app --reload
